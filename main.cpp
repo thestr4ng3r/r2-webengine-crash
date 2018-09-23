@@ -10,17 +10,6 @@ RCore *core;
 
 void LoadR2();
 
-class R2Thread : public QThread
-{
-	Q_OBJECT
-
-	private:
-		void run() override
-		{
-			LoadR2();
-		}
-};
-
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
@@ -33,10 +22,9 @@ int main(int argc, char *argv[])
 	auto web_engine_view = new QWebEngineView(&window);
 	layout->addWidget(web_engine_view);
 
-	R2Thread th;
-	th.start();
-
 	web_engine_view->load(QUrl("https://rada.re"));
+
+	LoadR2();
 
 	window.show();
 	QApplication::setQuitOnLastWindowClosed(true);
@@ -51,5 +39,3 @@ void LoadR2()
 	r_core_cmd(core, "aaa", 0);
 	r_cons_flush();
 }
-
-#include "main.moc"
